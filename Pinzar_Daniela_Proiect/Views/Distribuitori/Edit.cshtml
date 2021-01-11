@@ -1,0 +1,69 @@
+﻿@model Pinzar_Daniela_Proiect.Models.Distribuitor
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Distribuitor</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="NumeDistribuitor" class="control-label"></label>
+                <input asp-for="NumeDistribuitor" class="form-control" />
+                <span asp-validation-for="NumeDistribuitor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adresa" class="control-label"></label>
+                <input asp-for="Adresa" class="form-control" />
+                <span asp-validation-for="Adresa" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <table>
+                        <tr>
+                            @{
+                                int cnt = 0;
+
+                                List<Pinzar_Daniela_Proiect.Models.MagazinViewModels.DistribuitorProdusData> produse =
+                                ViewBag.Produse;
+                                foreach (var produs in produse)
+                                {
+                                    if (cnt++ % 3 == 0)
+                                    {
+                                    @:</tr><tr>
+                                    }
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedProducts"
+                                               value="@produs.ProdusID"
+                                               @(Html.Raw(produs.IsDistribuited ? "checked=\"checked\"" : "")) />
+                                        @produs.ProdusID @: @produs.Denumire
+                                    @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

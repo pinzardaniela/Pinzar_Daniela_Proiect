@@ -1,0 +1,108 @@
+﻿@model Pinzar_Daniela_Proiect.Models.MagazinViewModels.DistribuitorIndexData
+@{
+    ViewData["Denumire"] = "Distribuitori";
+}
+<h2>Distribuitori</h2>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nume Distribuitor</th>
+            <th>Adresa</th>
+            <th>Produse</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Distribuitori)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["DistribuitorID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeDistribuitor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adresa)
+                </td>
+
+                <td>
+                    @{
+                        foreach (var produs in item.DistribuitorProduse)
+                        {
+                            @produs.Produs.ID @: @produs.Produs.Denumire <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (Model.Produse != null)
+{
+    <h3>Products Distribuited by Selected Distribuitor</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Denumire</th>
+            <th>Furnizor</th>
+            <th>Pret</th>
+        </tr>
+        @foreach (var item in Model.Produse)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["ProdusID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { produsID = item.ID })
+                </td>
+                <td>
+                    @item.Denumire
+                </td>
+                <td>
+                    @item.Furnizor
+                </td>
+                <td>
+                    @item.Pret
+                </td>
+            </tr>
+        }
+    </table>
+}
+@if (Model.Comenzi != null)
+{
+    <h3>
+        Customers that have ordered the Selected Product
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Nume</th>
+            <th>Data Comenzii</th>
+        </tr>
+        @foreach (var item in Model.Comenzi)
+        {
+            <tr>
+                <td>
+                    @item.Client.Nume
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataComenzii)
+                </td>
+            </tr>
+        }
+    </table>
+}

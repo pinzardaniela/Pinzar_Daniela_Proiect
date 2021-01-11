@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Pinzar_Daniela_Proiect.Models.MagazinViewModels.OrderGroup>
+@{
+ ViewData["Denumire"] = "Ordered Products Statistics";
+}
+<h2>Ordered Products Statistics</h2>
+<table>
+    <tr>
+        <th>
+            Order Date
+        </th>
+        <th>
+            Ordered Products
+        </th>
+    </tr>
+    @foreach (var item in Model)
+ {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataComenzii)
+        </td>
+        <td>
+            @item.ProduseCount
+        </td>
+    </tr>
+ }
+</table>
